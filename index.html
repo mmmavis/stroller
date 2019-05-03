@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Stroller</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="">
+    <meta property="og:image" content="https://mmmavis.github.io/stroller/favicon-on-white.png">
+    <meta property="og:image:width" content="360" />
+    <meta property="og:image:height" content="360" />
+    <meta property="og:image:type" content="image/png" />
+    <link rel="apple-touch-icon" type="image/png" sizes="360x360" href="favicon-on-white.png">
+    <link rel="icon" type="image/png" sizes="90x90" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300" rel="stylesheet">
+    <link rel="stylesheet/less" type="text/css" href="style.less" />
+    <script type="text/javascript" src="lib/less.min.js" ></script>
+    <script type="text/javascript" src="lib/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="lib/handlebars-v4.0.11.js"></script>
+    <script type="text/javascript" src="lib/moment.js"></script>
+
+    <script id="note-template" type="text/x-handlebars-template">
+      <div class="note {{bgColor}}{{#if imgSrc}} has-media{{/if}}" data-id="{{id}}" id="{{id}}">
+        <div class="content">
+          {{#if imgSrcIsVideo}}
+            <video src="{{imgSrc}}"controls preload="metadata">
+              Sorry, your browser doesn't support embedded videos.
+            </video>
+          {{else if imgSrcIsWebpage}}
+            <a href="{{imgSrc}}" target="_blank" class="see-link">
+              (see link)
+            </a>
+          {{else if imgSrc}}
+            <div class="img-container">
+              <a href="{{imgSrc}}" target="_blank" title="click to see full size">
+                <img src="{{imgSrc}}">
+                <div class="overlay">click to see full size</div>
+              </a>
+            </div>
+          {{/if}}
+          <div>
+            <p class="message">{{{message}}}</p>
+            <div class="submitter">
+              <div>— {{submitter}}</div>
+              <div><small>({{localTime timestamp}})</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script id="new-note-template" type="text/x-handlebars-template">
+      <div id="new-note" class="note">
+        <form id="new-note-form">
+          <div>
+            <textarea name="message" type="text" maxlength=300 placeholder="message (max. 300 characters)" required></textarea>
+          </div>
+          <div>
+            <input name="imgSrc" type="text" placeholder="(optional) image url (url should include file extension)" />
+            <small>Tip: right click on the image and select "copy image location"</small>
+          </div>
+          <div>
+            <input name="submitter" type="text" placeholder="your name" required />
+          </div>
+          <div>
+            <button type="submit">SEND</button>
+          </div>
+        </form>
+      </div>
+    </script>
+
+  </head>
+  <body>
+    <div id="outer-wrapper">
+      <div id="banner">
+        <img src="assets/banner.svg">
+      </div>
+      <div id="left">
+      </div>
+      <div id="right">
+        <div class="main-illustration">
+        </div>
+        <div id="inner-wrapper"></div>
+      </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
