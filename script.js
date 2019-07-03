@@ -1,41 +1,9 @@
 const ANIMATION_DELAY = 0; // in ms
 
-// const FIREBASE_DB_PATH = `/notes`;
-const FIREBASE_DB_PATH = `/sara-stroller/notes`;
-
-// Initialize Firebase
-const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCfV20ewmUYWSvC8JBW06i69GYpu2EdunI",
-  authDomain: "mark-wine.firebaseapp.com",
-  databaseURL: "https://mark-wine.firebaseio.com",
-  projectId: "mark-wine",
-  storageBucket: "mark-wine.appspot.com"
-};
-
-firebase.initializeApp(FIREBASE_CONFIG);
-
-firebase.auth().signInAnonymously().catch(function(error) {
-  console.log("error", error);
-});
-
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-    // var isAnonymous = user.isAnonymous;
-    // var uid = user.uid;
-    // console.log("user");
-
-    setTimeout(function () {
-      renderAllNotes(function() {
-        setTimeout(function() {
-          $("#inner-wrapper").append(createHTML({},"new-note-template"));
-        }, ANIMATION_DELAY);
-      });
-    }, 1500);
-  } else {
-    // User is signed out.
-    // console.log("out");
-  }
+renderAllNotes(function() {
+  setTimeout(function() {
+    $("#inner-wrapper").append(createHTML({},"new-note-template"));
+  }, ANIMATION_DELAY);
 });
 
 Handlebars.registerHelper("localTime", function(timestamp) {
@@ -43,8 +11,11 @@ Handlebars.registerHelper("localTime", function(timestamp) {
 });
 
 function renderAllNotes(done) {
-  firebase.database().ref(FIREBASE_DB_PATH).once('value').then(function(snapshot) {
-    var notes = snapshot.val();
+  $.getJSON("data.json", function(data, status) {
+
+    if (status !== 'success') return;
+
+    var notes = data.notes;
 
     try {
       var numNotes = Object.keys(notes).length;
